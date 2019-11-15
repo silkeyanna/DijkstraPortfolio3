@@ -34,7 +34,7 @@ public class Graph {
     public Pair<Integer, Map<Vertex, Vertex>> ShortestDistance(Vertex source, Vertex zink) {
         Map<Vertex, Vertex> PredecessorMap = new HashMap<>();
         Map<Vertex, Integer> DistanceMap = new HashMap<>();
-        Vertex a;
+        Vertex smallestVertex;
         // initialize arrays
         for (Vertex v : Vertices) {
             DistanceMap.put(v, 1000);
@@ -43,25 +43,25 @@ public class Graph {
         DistanceMap.put(source, 0);
         for (Vertex v : Vertices) {
             while (!DistanceMap.isEmpty()) {
-                a = getmin(DistanceMap);
-                if(a==null) {
+                smallestVertex = getmin(DistanceMap);
+                if(smallestVertex==null) {
                     return (new Pair<Integer, Map<Vertex, Vertex>>(DistanceMap.get(zink), PredecessorMap));
                 }
-                //System.out.println("This is the smallest Vertex: " + a.Name);
-                ArrayList<Edge> edges = a.getOutEdges();
+                //System.out.println("This is the smallest Vertex: " + smallestVertex.Name);
+                ArrayList<Edge> edges = smallestVertex.getOutEdges();
                 for (Edge e : edges) {
                     if (DistanceMap.containsKey(e.tovertex)) {
-                        Integer alt = DistanceMap.get(a) + e.distance;
+                        Integer alt = DistanceMap.get(smallestVertex) + e.distance;
                 //        System.out.println("Information on e: " + e.fromvertex.Name + ", " + e.tovertex.Name);
                 //        System.out.println("This is the distance going out from that Vertex: " + alt + ", with previous distance: " + DistanceMap.get(e.tovertex));
                         if (alt < DistanceMap.get(e.tovertex)) {
                             DistanceMap.put(e.tovertex, alt);
-                            PredecessorMap.put(e.tovertex, a);
-                //            System.out.println("In the PredecessorMap it now looks like: " + e.tovertex.Name + ", " + a.Name);
+                            PredecessorMap.put(e.tovertex, smallestVertex);
+                //            System.out.println("In the PredecessorMap it now looks like: " + e.tovertex.Name + ", " + smallestVertex.Name);
                         }
                     }
                 }
-                DistanceMap.remove(a);
+                DistanceMap.remove(smallestVertex);
             }
         }
         return (new Pair<Integer, Map<Vertex, Vertex>>(DistanceMap.get(zink), PredecessorMap));

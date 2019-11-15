@@ -10,7 +10,7 @@ public class GraphTests {
         GraphTests TestGraph= new GraphTests();
         Graph g = TestGraph.MakeSmallGraph();
         Graph.Vertex source = g.getvertex("A");
-        Graph.Vertex zink = g.getvertex("F");
+        Graph.Vertex zink = g.getvertex("E");
         Pair<Integer, Map<Graph.Vertex, Graph.Vertex>> results=g.ShortestDistance(source, zink);
         Graph.Vertex current =zink;
         ArrayList<Graph.Vertex> Path= new ArrayList<>();
