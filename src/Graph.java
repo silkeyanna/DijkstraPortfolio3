@@ -32,36 +32,37 @@ public class Graph {
     }
 
     public Pair<Integer, Map<Vertex, Vertex>> ShortestDistance(Vertex source, Vertex zink) {
+        //method to apply the algorithm
         Map<Vertex, Vertex> PredecessorMap = new HashMap<>();
         Map<Vertex, Integer> DistanceMap = new HashMap<>();
-        Vertex smallestVertex;
+        Vertex a;
         // initialize arrays
         for (Vertex v : Vertices) {
-            DistanceMap.put(v, 1000);
+            DistanceMap.put(v, 1000); //We initialize the array in infinite
             PredecessorMap.put(v, null);
         }
-        DistanceMap.put(source, 0);
+        DistanceMap.put(source, 0); //We put the source in 0
         for (Vertex v : Vertices) {
-            while (!DistanceMap.isEmpty()) {
-                smallestVertex = getmin(DistanceMap);
-                if(smallestVertex==null) {
+            while (!DistanceMap.isEmpty()) { //And we iterate until the distance map is empty
+                a = getmin(DistanceMap); //we get the minimum vertex
+                if(a==null) {
                     return (new Pair<Integer, Map<Vertex, Vertex>>(DistanceMap.get(zink), PredecessorMap));
                 }
-                //System.out.println("This is the smallest Vertex: " + smallestVertex.Name);
-                ArrayList<Edge> edges = smallestVertex.getOutEdges();
-                for (Edge e : edges) {
-                    if (DistanceMap.containsKey(e.tovertex)) {
-                        Integer alt = DistanceMap.get(smallestVertex) + e.distance;
-                //        System.out.println("Information on e: " + e.fromvertex.Name + ", " + e.tovertex.Name);
-                //        System.out.println("This is the distance going out from that Vertex: " + alt + ", with previous distance: " + DistanceMap.get(e.tovertex));
-                        if (alt < DistanceMap.get(e.tovertex)) {
+
+                ArrayList<Edge> edges = a.getOutEdges(); //we get de edges connected to this vertex
+                for (Edge e : edges) { //we iterate getting the vertex of each edge
+                    if (DistanceMap.containsKey(e.tovertex)) { //if the vertex is in the distance map:
+                        Integer alt = DistanceMap.get(a) + e.distance; //we get it value and plus the distance of the edge
+
+                        System.out.println("This is the distance going out from that Vertex: " + alt + ", with previous distance: " + DistanceMap.get(e.tovertex));
+                        if (alt < DistanceMap.get(e.tovertex)) { //if it is less, we put it in the arrays
                             DistanceMap.put(e.tovertex, alt);
-                            PredecessorMap.put(e.tovertex, smallestVertex);
-                //            System.out.println("In the PredecessorMap it now looks like: " + e.tovertex.Name + ", " + smallestVertex.Name);
+                            PredecessorMap.put(e.tovertex, a);
+
                         }
                     }
                 }
-                DistanceMap.remove(smallestVertex);
+                DistanceMap.remove(a); //and we remove it of the array
             }
         }
         return (new Pair<Integer, Map<Vertex, Vertex>>(DistanceMap.get(zink), PredecessorMap));
@@ -71,11 +72,11 @@ public class Graph {
         Vertex vertex = null;
         int value = 1000;
 
-        for (Map.Entry<Vertex, Integer> entry : qmap.entrySet()) {
+        for (Map.Entry<Vertex, Integer> entry : qmap.entrySet()) { //we iterate in the vertex's
             Vertex vertex1 = entry.getKey();
-            int val = entry.getValue();
-            //System.out.println("This is val: " + val + "for Vertex: " + entry.getKey().Name);
-            if (val < value) {
+            int val = entry.getValue(); //we get de vertex and the value of it
+
+            if (val < value) { //And we return the less
                 vertex = vertex1;
                 value = val;
             }
